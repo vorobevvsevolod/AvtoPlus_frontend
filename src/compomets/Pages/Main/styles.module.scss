@@ -1,0 +1,32 @@
+.wrapperMain {
+  width: calc(50vw - 100px);
+  height: 100%;
+  background-color: #fff;
+  margin: 15px auto;
+
+  border-radius: 10px;
+  max-width: 1400px;
+  position: relative;
+
+  @media (max-width: 900px) {
+    margin: 0;
+    width: 100%;
+  }
+}
+
+.containerMain {
+  width: 95%;
+  margin: 0 auto;
+  padding: 20px;
+  &--cart {
+    max-width: 820px;
+    margin: 90px auto;
+    .content__title {
+      margin: 0;
+    }
+  }
+
+  @media (max-width: 820px) {
+    padding: 10px 0px;
+  }
+}
