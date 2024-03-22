@@ -1,7 +1,9 @@
 .hesderSub{
   width: auto;
-  margin-left: 180px;
+
   height: 140px;
+  box-shadow: 0 2px 5px 0 rgba(32,32,32,.08);
+  z-index: 1000;
 
   &_top{
     position: relative;
@@ -99,7 +101,7 @@
   &_bottom{
     display: flex;
     align-items: center;
-    background-color: #fff;
+    background-color: #ffffff;
     height: 40%;
     &_nav{
       display: flex;

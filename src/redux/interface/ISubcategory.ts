@@ -1,5 +1,5 @@
 
 export interface ISubCategory {
-    id: string;
+    idSub: number;
     title: string;
 }

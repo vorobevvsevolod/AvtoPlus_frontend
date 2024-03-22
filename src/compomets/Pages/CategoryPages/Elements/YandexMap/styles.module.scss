@@ -1,0 +1,230 @@
+.yandexMap{
+  width: 100%;
+  height: 600px;
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+
+  &_containerList{
+    position: relative;
+  }
+  &_backWhite{
+    background-color: white;
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    z-index: -1;
+  }
+
+  &_list{
+
+    height: 100%;
+    background-color: #3b3b3b;
+    width: 35%;
+    opacity: 1;
+    z-index: 1000;
+    padding: 5px 15px 10px 0;
+    overflow: auto;
+
+
+    &_item{
+      color: white;
+      width: 100%;
+
+
+      height: 48px;
+      padding: 10px;
+      background-color: #3b3b3b;
+      border-bottom: 1px solid white;
+      cursor: pointer;
+
+      transition: background-color 0.10s ease-in-out, height 0.4s ease-in, font-weight 0.10s ease-in-out;
+      z-index: 1000;
+      font-weight: 600;
+      &_open{
+        overflow: hidden;
+        cursor: auto;
+
+
+        &_ContainerTitle{
+          height: auto;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          &_Title{
+
+            padding-left: 0;
+            transition: all 0.10s ease-in;
+            font-size: 20px;
+
+            &_grey{
+              color: #9f9f9f;
+            }
+          }
+
+          &_img{
+            position: absolute;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            transition: all 0.15s ease-in;
+            filter: invert(1);
+            z-index: 2000;
+            &:hover{
+              filter: invert(0);
+            }
+
+            &_back{
+              position: absolute;
+              right: 15px;
+              width: 35px;
+              height: 35px;
+              cursor: pointer;
+              transition: all 0.15s ease-in;
+              filter: invert(1);
+              z-index: 2000;
+              &:hover{
+                filter: invert(0);
+              }
+
+            }
+          }
+        }
+      }
+
+      &_borderLeftUp{
+        border-radius: 6px 0px 0px 0px;
+
+        &:hover{
+          background-color: #4d4d4d;
+        }
+      }
+
+      &_borderLeftDown{
+        border-radius: 0px 0px 0px 6px;
+        border-bottom: 0;
+
+        &:hover{
+          background-color: #4d4d4d;
+        }
+      }
+
+      &_activ{
+        background-color: white;
+        border-radius: 6px 6px 6px 6px;
+        color: black;
+        padding-left: 10px;
+
+      }
+
+      &_activFirst{
+        background-color: #ffffff;
+        border-radius: 0px 6px 6px 0px;
+        color: black;
+      }
+
+      &_activLast{
+        background-color: #ffffff;
+        border-radius: 0px 6px 6px 0px;
+        color: black;
+      }
+
+      &_defualt{
+
+        &:hover{
+          background-color: #4d4d4d;
+          font-weight: 700;
+        }
+
+      }
+    }
+  }
+
+  &_fullItem{
+    border-radius: 3px;
+    margin: 20px 0 5px 0px;
+    height: 365px;
+    padding: 0 10px;
+    overflow: auto;
+
+
+    &_img{
+      border-radius: 4px;
+      width: 100%;
+      height: 200px;
+    }
+
+    &_subtitle{
+      margin-top: 10px;
+      text-align: justify;
+      font-weight: 400;
+      color: #313131;
+      line-height: 19px;
+    }
+
+    &_work{
+      font-weight: 600;
+      color: #858585;
+      margin-top: 5px;
+
+      span{
+        color: #14a414;
+        margin-left: 10px;
+        font-style: italic;
+      }
+    }
+
+    &_scopeWork{
+      font-weight: 600;
+      color: #858585;
+      margin-top: 5px;
+
+      span{
+        color: black;
+        margin-left: 10px;
+      }
+    }
+
+  }
+
+
+  &_ListPoints{
+    height: auto;
+    width: 100%;
+    padding: 5px;
+    margin-top: 0;
+
+    &_container{
+      height: 100%;
+    }
+
+    &_item{
+      font-weight: normal;
+      margin: 10px 0;
+      font-size: 18px;
+      background-color: #d2d2d2;
+      padding: 5px 5px 5px 15px;
+      border-radius: 3px;
+      z-index: 1001;
+      transition: all 0.15s ease-in;
+      cursor: pointer;
+
+      &:hover{
+        border-left: 5px solid #14a414;
+        padding: 5px 5px 5px 20px;
+      }
+
+      &:last-child{
+        margin-bottom: 0;
+      }
+
+    }
+
+
+
+  }
+}

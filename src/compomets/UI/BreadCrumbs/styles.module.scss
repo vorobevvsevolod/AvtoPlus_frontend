@@ -1,0 +1,19 @@
+.bread{
+
+  margin: 24px 0;
+  &_link{
+    margin: 0px 10px 0px 10px;
+    font-weight: 600;
+    color: #777777;
+
+    &:first-child{
+      margin-left: 0;
+    }
+
+    &_last{
+      color: #339933;
+    }
+
+
+  }
+}

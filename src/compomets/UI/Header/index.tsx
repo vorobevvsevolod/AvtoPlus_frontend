@@ -6,19 +6,17 @@ import { useSelector} from "react-redux";
 import {selectToken} from "../../../redux/slice/UserSlice";
 import {Link} from "react-router-dom";
 import {RootState, useAppDispatch} from "../../../redux";
+import {setBreadCrumbs, setClearBreadCrumbs} from "../../../redux/slice/CategorySlice";
 
 const Header: React.FC = () => {
     const dispatch = useAppDispatch();
-    const { categories } = useSelector((state: RootState) => state.Materials)
+    const { categories , activeCategory} = useSelector((state: RootState) => state.Category)
 
     const location = useLocation()
     const [showSubcategories, setShowSubcategories] = React.useState<string | null>(null);
-
-    const checkPage = (name:string): boolean =>{
-        const searchParams = new URLSearchParams(window.location.search.substring(1));
-
-        return String(searchParams.get('page')) === name;
-    }
+    const [selectCategory, setSelectCategory] = React.useState<{
+        categoryId: string
+    } >({categoryId: ""});
 
     const сhangeExtantion = (str:string): string =>{
         const parts = str.split('.');
@@ -29,10 +27,10 @@ const Header: React.FC = () => {
     return (
 		<div className={styles.header}>
 			<div className={styles.container}>
-				<Link to='/'>
+				<Link to='/' onClick={ () => dispatch(setClearBreadCrumbs())}>
 					<div className={styles.header__logo}>
 						<div>
-							<h1>Авто-Плюс</h1>
+							<h1>Основа</h1>
 							<p>Путь качества в  каждой горсти</p>
 						</div>
 
@@ -42,20 +40,20 @@ const Header: React.FC = () => {
                     {categories.map((category) =>
                         <div
                             key={category.id}
-                            className={`${(location.pathname === '/main') ? styles.link_hover : styles.link}`}
+                            className={`${styles.link} ${(selectCategory.categoryId === category.id || category.id === activeCategory) ? styles.link_active : ''}`}
                             onMouseEnter={() => setShowSubcategories(category.id)}
                             onMouseLeave={() => setShowSubcategories(null)}
                         >
                             {
-                                (showSubcategories === category.id)
-                                ? <Link to={`/${category.name}`}>
+                                (showSubcategories === category.id || selectCategory.categoryId === category.id || category.id === activeCategory)
+                                ? <Link to={`/${encodeURIComponent(category.name)}`}>
                                         <div className={styles.header_left_img}>
                                             <img width={80} height={80} src={`${process.env.REACT_APP_API_SERVER}${сhangeExtantion(category.img)}`} alt={category.name}/>
                                         </div>
 
                                     </Link>
                                 :
-                                    <Link to={`/${category.name}`}>
+                                    <Link to={`/${encodeURIComponent(category.name)}`}>
                                         <div>
                                             <img width={50} height={50} src={`${process.env.REACT_APP_API_SERVER}${category.img}`} alt={category.name} />
                                         </div>
@@ -66,7 +64,7 @@ const Header: React.FC = () => {
                             {showSubcategories === category.id &&
 				                <div className={styles.subcategories}>
                                     {category.sub.map(subcategory => (
-                                        <Link key={subcategory.id} to={`/${category.name}/${subcategory.title}`} className={styles.subcategory}>
+                                        <Link key={subcategory.idSub} to={`/${encodeURIComponent(category.name)}/${encodeURIComponent(subcategory.idSub)}`} className={styles.subcategory}>
                                             {subcategory.title}
                                         </Link>
                                     ))}

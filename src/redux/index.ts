@@ -1,11 +1,13 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import {useDispatch} from "react-redux";
 import {TokenUserReducer} from "./slice/UserSlice";
-import {MaterialsReducer} from "./slice/MaterialsSlice";
+import {CategoryReducer} from "./slice/CategorySlice";
+import {WorksReducer} from "./slice/WorksSlice";
 const store = configureStore({
   reducer: {
       userInfo: TokenUserReducer,
-      Materials: MaterialsReducer
+      Category: CategoryReducer,
+      Works: WorksReducer
   },
 });
 
