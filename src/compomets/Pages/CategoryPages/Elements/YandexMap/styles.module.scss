@@ -1,10 +1,24 @@
 .yandexMap{
-  width: 100%;
-  height: 600px;
-  position: relative;
-  border-radius: 6px;
+
+  border-radius: 8px ;
   overflow: hidden;
-  display: flex;
+  display: block;
+  background-color: #3b3b3b;
+
+  -webkit-box-shadow: 0px 0px 10px -1px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 0px 0px 10px -1px rgba(34, 60, 80, 0.2);
+  box-shadow: 0px 0px 10px -1px rgba(34, 60, 80, 0.2);
+
+
+  &_container{
+    display: flex;
+    width: 100%;
+    height: 600px;
+    position: relative;
+    border-radius: 6px 6px 6px 6px ;
+
+  }
+
 
   &_containerList{
     position: relative;
@@ -17,7 +31,6 @@
     bottom: 0;
     z-index: -1;
   }
-
   &_list{
 
     height: 100%;
@@ -25,7 +38,7 @@
     width: 35%;
     opacity: 1;
     z-index: 1000;
-    padding: 5px 15px 10px 0;
+    padding: 0px 0px 10px 0;
     overflow: auto;
 
 
@@ -115,7 +128,6 @@
 
       &_activ{
         background-color: white;
-        border-radius: 6px 6px 6px 6px;
         color: black;
         padding-left: 10px;
 
@@ -123,13 +135,11 @@
 
       &_activFirst{
         background-color: #ffffff;
-        border-radius: 0px 6px 6px 0px;
         color: black;
       }
 
       &_activLast{
         background-color: #ffffff;
-        border-radius: 0px 6px 6px 0px;
         color: black;
       }
 
@@ -143,12 +153,11 @@
       }
     }
   }
-
   &_fullItem{
     border-radius: 3px;
     margin: 20px 0 5px 0px;
     height: 365px;
-    padding: 0 10px;
+    padding: 0 15px 0px 0px;
     overflow: auto;
 
 
@@ -190,8 +199,6 @@
     }
 
   }
-
-
   &_ListPoints{
     height: auto;
     width: 100%;
@@ -227,4 +234,63 @@
 
 
   }
+
+  &_tabsCategories{
+    position: relative;
+    height: 40px;
+    width: 65%;
+    border-radius: 5px 0px 0px 0px;
+    display: flex;
+    overflow: hidden;
+
+
+
+    &_item{
+      display: flex;
+      width: 25%;
+      padding: 5px 5px 5px 15px;
+      cursor: pointer;
+      font-size: 13px;
+      align-items: center;
+      background-color: #3b3b3b;
+      font-weight: 500;
+      border-right: 1px solid #d7d7d7;
+      transition: all 0.2s ease-in-out;
+      color: #989898;
+      border-top: 2px solid transparent;
+
+      &:last-child{
+      }
+
+      &:hover{
+        border-top: 2px solid #14a414;
+        color: white;
+        font-weight: 700;
+      }
+
+
+      &_active{
+        background-color: white;
+        font-weight: 700;
+        color: #14a414;
+
+        &:hover{
+          border-top: 2px solid #14a414;
+          color: #14a414;
+          font-weight: 700;
+        }
+      }
+
+      &_firstActive{
+        background-color: white;
+        overflow: hidden;
+        font-weight: 700;
+        color: #14a414;
+      }
+
+      &_last{
+      }
+    }
+  }
+
 }

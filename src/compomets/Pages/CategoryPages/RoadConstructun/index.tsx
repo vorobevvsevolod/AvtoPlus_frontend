@@ -27,7 +27,7 @@ const RoadConstruction: React.FC = () => {
             <CarsPark/>
 
             <h2 className={styles.categoryPages_title}>География наших работ </h2>
-            <YandexMap categoryId={activeCategory}/>
+            <YandexMap/>
 
 
 
