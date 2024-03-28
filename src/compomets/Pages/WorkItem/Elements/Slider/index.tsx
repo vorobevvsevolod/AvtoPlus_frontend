@@ -5,7 +5,6 @@ import {IImages} from "../../../../../redux/interface/Works/IImages";
 import {IImagesGalleryWorks} from "../../../../../redux/interface/Works/IImagesGalleryWorks";
 const Slider:React.FC<{images: IImages[] | IImagesGalleryWorks[]}> = (props) =>{
     const [currentIndex, setCurrentIndex] = React.useState<number>(0);
-
     const goToNextSlide = () => {
         setCurrentIndex((prevIndex) => (prevIndex === props.images.length - 1 ? 0 : prevIndex + 1));
     };
@@ -16,17 +15,19 @@ const Slider:React.FC<{images: IImages[] | IImagesGalleryWorks[]}> = (props) =>{
     };
 
     React.useEffect(() => {
-        const interval = setInterval(goToNextSlide, 5000);
-
-        return () => clearInterval(interval);
-    }, []);
+        if(props.images.length){
+            setCurrentIndex(0)
+            const interval = setInterval(goToNextSlide, 5000);
+            return () => clearInterval(interval);
+        }
+    }, [props.images.length, props.images]);
 
     return (
         <div className={styles.slider}>
             {
                 props.images.length &&
                 <>
-                    {props.images[currentIndex]?.url && <img className={styles.slider_img}
+                    {<img className={styles.slider_img}
                           src={`${process.env.REACT_APP_API_SERVER}${props.images[currentIndex]?.url}`}
                           alt={`Slide ${currentIndex + 1}`}/>}
                     <div className={styles.slider_conrainer}>

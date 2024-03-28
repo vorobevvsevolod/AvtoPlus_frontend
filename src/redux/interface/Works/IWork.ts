@@ -1,4 +1,4 @@
-import {IPriceFactory} from "./IPriceFactory";
+import {IPriceFactor} from "./IPriceFactor";
 import {INeed} from "./INeed";
 import {IImages} from "./IImages";
 
@@ -13,7 +13,7 @@ export interface IWork{
     price: string,
     priceDescription: string,
     categoryId: string,
-    priceFactory: IPriceFactory[],
-    need: INeed[],
+    priceFactor: IPriceFactor,
+    need: INeed,
     images: IImages[],
 }

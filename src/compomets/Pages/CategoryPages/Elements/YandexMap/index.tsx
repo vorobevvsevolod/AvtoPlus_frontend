@@ -9,6 +9,7 @@ import carsPark from "../CarsPark";
 import {ISubCategory} from "../../../../../redux/interface/ISubcategory";
 import Slider from "../../../WorkItem/Elements/Slider";
 import {log} from "util";
+import {setActiveCategory} from "../../../../../redux/slice/CategorySlice";
 const YandexMap:React.FC<{workId?: number}> = (props) => {
     const { galleryWorks } = useSelector((root: RootState) => root.Works);
     const [galleryWorksFilter, setGalleryWorksFilter] = React.useState<IGalleryWorks[]>(galleryWorks);
@@ -121,6 +122,13 @@ const YandexMap:React.FC<{workId?: number}> = (props) => {
     React.useEffect(() => {
         if(activeCategory) setActiveCategoryInner(activeCategory)
     }, [activeCategory])
+
+    React.useEffect(() =>{
+        if(props.workId){
+            setActiveSubCategory(props.workId);
+            console.log(props.workId);
+        }
+    }, [props.workId])
 
         return (
         <div className={styles.yandexMap}>
@@ -270,7 +278,9 @@ const YandexMap:React.FC<{workId?: number}> = (props) => {
                                                     }
                                                 </div>
                                                 : <div className={styles.yandexMap_fullItem}>
-                                                    <Slider images={activePointItem?.img ? activePointItem?.img : []}/>
+                                                    <div className={styles.yandexMap_fullItem_slider}>
+                                                        <Slider images={activePointItem?.img ? activePointItem?.img : []}/>
+                                                    </div>
                                                     <div className={styles.yandexMap_fullItem_work}>
                                                         Вид работы:
                                                         <span>{Subcategory.title}</span>

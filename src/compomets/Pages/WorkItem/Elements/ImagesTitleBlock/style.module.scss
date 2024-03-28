@@ -1,25 +1,54 @@
 .images {
   &_container {
     position: relative;
-    height: 600px
+    height: 540px;
+    display: flex;
+    margin-bottom: 50px;
+  }
+
+  &_containerSlider{
+    width: 600px;
+    height: 450px;
+
+    &_number{
+      position: absolute;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      left: 20px;
+
+      &_containerTitle{
+        display: block;
+        margin-left: 10px;
+        &_title{
+          color: #14a414;
+          font-size: 16px;
+        }
+        span{
+          font-weight: 700;
+          font-size: 20px;
+          color: black;
+        }
+      }
+    }
   }
 
   &_TitleDesc {
     position: relative;
-    width: 55%;
-    height: 350px;
+    width: 118%;
+    height: 440px;
     background-color: #3b3b3b;
     z-index: 0;
-    top: -280px;
-    left: 45%;
+    right: 10%;
+
     border-radius: 4px;
+    &_container{
+    }
 
     &_title{
-      position: absolute;
-      top: 4%;
-      right: 6%;
-      margin: 40px 0;
-      font-size: 35px;
+      position: relative;
+      margin: 20px 0 20px 50px;
+      font-size: 30px;
       color: #313131;
 
       font-weight: 800;
@@ -35,30 +64,32 @@
     }
 
     &_container{
-      margin-left: 105px;
+      margin-left: 0px;
       padding-right: 40px;
     }
 
     &_desc {
       position: relative;
-      top: 40%;
-      transform: translateY(40%);
+      top: 60%;
+      transform: translateY(50%);
       color: white;
       font-size: 17px;
       font-weight: 500;
       text-align: justify;
+      margin-left: 100px;
+      margin-top: 20px;
     }
 
     &_YearContainer {
       position: absolute;
       background-color: #339933;
-      font-weight: 900;
-      font-size: 20px;
-      bottom: 5%;
+      font-weight: 700;
+      font-size: 18px;
+      bottom: 7%;
       right: -10px;
       z-index: 1;
       width: 85%;
-      height: 70px;
+      height: 55px;
       border-radius: 50px 0px 0px 50px;
       text-align: justify;
       padding: 10px;

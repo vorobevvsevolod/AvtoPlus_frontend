@@ -2,7 +2,7 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import axios from "../../axios";
 import { ICategory } from "../interface/ICategory";
 import { StatusFetch } from "../interface/StatusFetch";
-import { IPriceFactory } from "../interface/Works/IPriceFactory";
+import { IPriceFactor } from "../interface/Works/IPriceFactor";
 import { INeed } from "../interface/Works/INeed";
 import { IImages } from "../interface/Works/IImages";
 import {IWork} from "../interface/Works/IWork";
@@ -29,8 +29,23 @@ const initialState: IWorksSliceState = {
         price: "",
         priceDescription: "",
         categoryId: "",
-        priceFactory: [],
-        need: [],
+        priceFactor: {
+            workId: 0,
+            list: [{
+                id: "",
+                name: ""
+            }]
+        },
+        need: {
+            title:"",
+            description: "",
+            workId: 0,
+            list: [{
+                id: "",
+                name:"",
+                description:""
+            }]
+        },
         images: [],
     },
     galleryWorks: [],
@@ -69,7 +84,40 @@ const worksSlice = createSlice({
         setWorkById: (state, action:PayloadAction<{ id: number }>) =>{
             const workObj = state.works.find(work => work.id === action.payload.id);
             if(workObj) state.work = workObj;
-        }
+        },
+        clearWork: (state) =>{
+            state.work =  {
+                id: 0,
+                    title: "",
+                    descriptionTitle: "",
+                    description: "",
+                    lastYear: "",
+                    features: "",
+                    slogan: "",
+                    price: "",
+                    priceDescription: "",
+                    categoryId: "",
+                    priceFactor: {
+                    workId: 0,
+                        list: [{
+                        id: "",
+                        name: ""
+                    }]
+                },
+                need: {
+                    title:"",
+                        description: "",
+                        workId: 0,
+                        list: [{
+                        id: "",
+                        name:"",
+                        description:""
+                    }]
+                },
+                images: [],
+            }
+        },
+
     },
     extraReducers: (builder) => {
         builder
@@ -100,5 +148,5 @@ const worksSlice = createSlice({
     }
 });
 
-export const {setWorkById } = worksSlice.actions;
+export const {setWorkById, clearWork } = worksSlice.actions;
 export const WorksReducer = worksSlice.reducer;

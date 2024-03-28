@@ -1,6 +1,6 @@
 import {ISubCategory} from "../ISubcategory";
 
-export interface IPriceFactory{
+export interface IPriceFactor {
     workId: number,
     list: [
         {

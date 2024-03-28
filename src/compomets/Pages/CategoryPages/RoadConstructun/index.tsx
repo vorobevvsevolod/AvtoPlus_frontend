@@ -7,10 +7,15 @@ import StagesWork from "../Elements/StagesWork";
 import CarsPark from "../Elements/CarsPark";
 import YandexMap from "../Elements/YandexMap";
 import {useSelector} from "react-redux";
-import {RootState} from "../../../../redux";
+import {RootState, useAppDispatch} from "../../../../redux";
+import {clearWork} from "../../../../redux/slice/WorksSlice";
 
 const RoadConstruction: React.FC = () => {
-    const { activeCategory } = useSelector((root: RootState) => root.Category);
+    const dispatch = useAppDispatch();
+
+    React.useEffect(() =>{
+        dispatch(clearWork())
+    },[])
     return (
         <div>
             <h2 className={styles.categoryPages_title}>Строительство дорог: <span>наши дороги самые долговечные</span> </h2>
