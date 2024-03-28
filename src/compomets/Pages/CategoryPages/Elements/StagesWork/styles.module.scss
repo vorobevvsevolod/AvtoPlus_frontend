@@ -2,11 +2,6 @@
 .stagesWork{
 
 
-
-  &_container{
-
-  }
-
   &_item{
     margin: 30px 0;
     width: 100%;
@@ -95,7 +90,7 @@
 
     &_img{
       height: 100%;
-
+      width: 25%;
       &_radiusLeft{
         border-radius: 6px 0px 0px 6px;
       }

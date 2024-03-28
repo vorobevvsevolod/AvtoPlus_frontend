@@ -8,6 +8,7 @@
   -webkit-box-shadow: 0px 0px 10px -1px rgba(34, 60, 80, 0.2);
   -moz-box-shadow: 0px 0px 10px -1px rgba(34, 60, 80, 0.2);
   box-shadow: 0px 0px 10px -1px rgba(34, 60, 80, 0.2);
+  margin-bottom: 10px;
 
 
   &_container{
@@ -41,6 +42,22 @@
     padding: 0px 0px 10px 0;
     overflow: auto;
 
+    &::-webkit-scrollbar {
+      width: 10px;
+      background-color: #3b3b3b;
+
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #ccc;
+      border-radius: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: #999;
+    }
+
+
 
     &_item{
       color: white;
@@ -72,9 +89,32 @@
             padding-left: 0;
             transition: all 0.10s ease-in;
             font-size: 20px;
+            display: flex;
 
             &_grey{
               color: #9f9f9f;
+            }
+          }
+
+          &_count{
+            margin-left: 10px;
+            background-color: #14a414;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            position: relative;
+
+            &_number{
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              font-size: 14px;
+              text-align: center;
+              color: white;
+              font-weight: 900;
             }
           }
 
@@ -157,8 +197,23 @@
     border-radius: 3px;
     margin: 20px 0 5px 0px;
     height: 365px;
-    padding: 0 15px 0px 0px;
+    padding: 0 8px 0px 0px;
     overflow: auto;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+      background-color: #fff;
+
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #3b3b3b;
+      border-radius: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: #7e7e7e;
+    }
 
     &_slider{
       height: 240px;

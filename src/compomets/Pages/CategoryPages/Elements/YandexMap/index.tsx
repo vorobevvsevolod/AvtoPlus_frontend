@@ -19,7 +19,10 @@ const YandexMap:React.FC<{workId?: number}> = (props) => {
         cordX: 0,
         cordY: 0
     })
+    const [zoomMapCof, setZoomMapCof] = React.useState<number>(1);
     const [zoomMap, setZoomMap] = React.useState<number>(9);
+
+
     let centerCordDefault = {
         cordX: 0,
         cordY: 0
@@ -32,7 +35,7 @@ const YandexMap:React.FC<{workId?: number}> = (props) => {
     const [subCategoriesArray, setSubCategoriesArray] = React.useState<ISubCategory[]>([])
     const [showArrayPoints, setShowArrayPoints] = React.useState<boolean>(false)
 
-    const [activePoint, setActivePoint] = React.useState<number>(0);
+    const [activePoint, setActivePoint] = React.useState<number>();
     const [activePointItem, setActivePointItem] = React.useState<IGalleryWorks>();
     const [activePointWithActiveCategory, setActivePointWithActiveCategory] = React.useState<number>(0);
 
@@ -65,8 +68,29 @@ const YandexMap:React.FC<{workId?: number}> = (props) => {
         requestAnimationFrame(animate);
     };
     const calculationCenterCardDefualt = (): {cordX: number, cordY:number} =>{
-        const filteredWorks = galleryWorks.filter(work => work.categoryId === Number(activeCategoryInner));
+
+    const filteredWorks = activeCategoryInner !== null ?  galleryWorks.filter(work => work.categoryId === Number(activeCategoryInner)) : galleryWorks;
+
         const center: [number, number] = filteredWorks.reduce((accumulator, work) => {
+            let maxX = Number.MIN_VALUE;
+            let maxY = Number.MIN_VALUE;
+            let minX = Number.MAX_VALUE;
+            let minY = Number.MAX_VALUE;
+
+            for (const work of filteredWorks) {
+                const cordX = parseFloat(work.cordX);
+                const cordY = parseFloat(work.cordY);
+
+                maxX = Math.max(maxX, cordX);
+                maxY = Math.max(maxY, cordY);
+                minX = Math.min(minX, cordX);
+                minY = Math.min(minY, cordY);
+            }
+
+            const deltaX = maxX - minX;
+            const deltaY = maxY - minY;
+
+
             return [
                 accumulator[0] + parseFloat(work.cordX),
                 accumulator[1] + parseFloat(work.cordY)
@@ -90,8 +114,8 @@ const YandexMap:React.FC<{workId?: number}> = (props) => {
                     subCategories.push(catS)
                 })
             })
-
             setSubCategoriesArray(subCategories ? subCategories : []);
+            smoothChangeCenterCord({cordX: 59.9343, cordY: 30.3351} ,calculationCenterCardDefualt(), zoomMap, zoomMap, 1000)
         }
     }, [activeCategoryInner])
 
@@ -100,11 +124,14 @@ const YandexMap:React.FC<{workId?: number}> = (props) => {
             if(activeCategoryInner){
                 const filteredWorks = galleryWorks.filter(work => work.categoryId === Number(activeCategoryInner));
                 setGalleryWorksFilter(filteredWorks);
-                smoothChangeCenterCord({cordX: 59.9343, cordY: 30.3351} ,calculationCenterCardDefualt(), zoomMap, zoomMap, 1000)
+                smoothChangeCenterCord({cordX: 59.9343, cordY: 30.3351} ,calculationCenterCardDefualt(), zoomMap, zoomMap * zoomMapCof, 1000)
             } else if(props.workId){
                 const filteredWorks = galleryWorks.filter(work => work.workId === Number(props.workId));
                 setGalleryWorksFilter(filteredWorks);
-            } else setGalleryWorksFilter(galleryWorks);
+            }
+        if(activeCategoryInner === null){
+                setGalleryWorksFilter(galleryWorks);
+        }
     }, [galleryWorks, activeCategoryInner])
 
     React.useEffect(() =>{
@@ -115,8 +142,7 @@ const YandexMap:React.FC<{workId?: number}> = (props) => {
                         cordY: Number(galleryWorks.filter(gal => gal.id === activePoint)[0].cordY) } ,
                         zoomMap, 12, 1000)
         } else {
-
-            smoothChangeCenterCord(centerCord ,calculationCenterCardDefualt(), zoomMap, 9, 1000)
+            smoothChangeCenterCord(centerCord ,calculationCenterCardDefualt(), zoomMap, 9 * zoomMapCof, 1000)
         }
     },[activePoint])
     React.useEffect(() => {
@@ -126,15 +152,43 @@ const YandexMap:React.FC<{workId?: number}> = (props) => {
     React.useEffect(() =>{
         if(props.workId){
             setActiveSubCategory(props.workId);
-            console.log(props.workId);
         }
     }, [props.workId])
+
+    React.useEffect(() =>{
+        if(categories.length){
+            const noFilterSubCat = [...subCategoriesArray].map(noFilter => {
+                return {
+                    ...noFilter,
+                    count: 0
+                }
+            });
+
+            const worksCountSort = categories.map(category =>{
+                category.sub.map(cat => {
+                    galleryWorksFilter.map(gall => {
+                        if(gall.workId === cat.idSub){
+                            const foundIndex = noFilterSubCat.findIndex(filter => filter.idSub === cat.idSub);
+                            if (foundIndex !== -1) {
+                                noFilterSubCat[foundIndex].count += 1;
+                            }
+                        }
+                    })
+                })
+            })
+
+            noFilterSubCat.sort((a, b) => b.count - a.count);
+            setSubCategoriesArray(noFilterSubCat)
+
+        }
+
+    }, [galleryWorksFilter])
 
         return (
         <div className={styles.yandexMap}>
             <div className={styles.yandexMap_tabsCategories}>
                 <div className={`${styles.yandexMap_tabsCategories_item} ${ (activeCategoryInner === null ) ? styles.yandexMap_tabsCategories_item_firstActive : ""}`}
-                     onClick={() => setActiveCategoryInner(null)}>
+                     onClick={() => {setActiveCategoryInner(null); setActiveSubCategory(null)}}>
                     Все
                 </div>
                 {
@@ -233,7 +287,10 @@ const YandexMap:React.FC<{workId?: number}> = (props) => {
                                 >
                                     <div className={styles.yandexMap_list_item_open_ContainerTitle}>
                                         <div className={`${styles.yandexMap_list_item_open_ContainerTitle_Title}`}>
-                                            {activePoint && Subcategory.idSub === activeSubCategory ? activePointItem?.title : Subcategory.title}
+                                            {activePoint && Subcategory.idSub === activeSubCategory ? activePointItem?.title :
+                                                (activeSubCategory !== Subcategory.idSub) ?
+                                                <> {Subcategory.title} <div className={styles.yandexMap_list_item_open_ContainerTitle_count}><div className={styles.yandexMap_list_item_open_ContainerTitle_count_number}>{galleryWorksFilter.filter(gall => gall.workId === Subcategory.idSub).length}</div> </div> </>
+                                                : Subcategory.title}
                                         </div>
 
                                         {

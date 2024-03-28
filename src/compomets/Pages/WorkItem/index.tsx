@@ -43,7 +43,9 @@ const WorkItem : React.FC = () => {
                 <tbody className={styles.workItem_priceTable_body}>
                 <tr>
                     <td className={styles.workItem_priceTable_body_title}>{work.priceDescription}</td>
-                    <td className={styles.workItem_priceTable_body_subtitle}>от<strong className={styles.workItem_priceTable_price}> {work.price}</strong> (в зависимости от толщины слоя дорожной одежды)</td>
+                    <td className={styles.workItem_priceTable_body_subtitle}>
+                        {work.price === "смета" ? <strong className={styles.workItem_priceTable_price}> смета </strong> : <>от <strong className={styles.workItem_priceTable_price}>{ work.price} </strong> (в зависимости от толщины слоя дорожной одежды)</> }
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -75,6 +77,11 @@ const WorkItem : React.FC = () => {
             <h2 className={categoryStyles.categoryPages_title}>География работ</h2>
 
             <YandexMap workId={work.id}/>
+            {
+                work.description ? <div className={categoryStyles.categoryPages_subTitle}>
+                    {work.description}
+                </div> : <></>
+            }
             <div className={styles.workItem_priceFactor}>
                 {
                     work.priceFactor.list.length ?
