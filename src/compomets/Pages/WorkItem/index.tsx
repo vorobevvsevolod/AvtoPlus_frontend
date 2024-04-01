@@ -28,7 +28,7 @@ const WorkItem : React.FC = () => {
 
             {work && <ImagesTitleBlock images={work.images} title={work.title} titleDesc={work.descriptionTitle} lastYear={work.lastYear}/>}
             <h2 className={categoryStyles.categoryPages_litleTitle}>Особенности строительства</h2>
-            <div className={categoryStyles.categoryPages_subTitle}>
+            <div className={categoryStyles.categoryPages_text}>
                 {work.features}
             </div>
 
@@ -78,7 +78,7 @@ const WorkItem : React.FC = () => {
 
             <YandexMap workId={work.id}/>
             {
-                work.description ? <div className={categoryStyles.categoryPages_subTitle}>
+                work.description ? <div className={categoryStyles.categoryPages_description}>
                     {work.description}
                 </div> : <></>
             }
@@ -101,7 +101,7 @@ const WorkItem : React.FC = () => {
 
             </div>
 
-            <h2 className={categoryStyles.categoryPages_titleCenter}>Быстрое и недорогое строительство</h2>
+            <h2 className={categoryStyles.categoryPages_title}>Быстрое и недорогое строительство</h2>
             <div className={categoryStyles.categoryPages_subTitle}>
                 СК «Основа» — компания, которой доверяют. Мы работаем с 2007 года, за это время показали себя как надежный и ответственный партнер и поставщик нерудных материалов. Сделать заявку на расчет стоимости асфальтовой дороги, площадки, парковки вы всегда можете онлайн или по телефону.
                 Построенные нами дороги ежедневно выдерживают большие нагрузки, без проблем переносят любые погодные изменения, долго не нуждаются в ремонте благодаря тщательному соблюдению строгих стандартов качества материалов и технологий укладки асфальта.

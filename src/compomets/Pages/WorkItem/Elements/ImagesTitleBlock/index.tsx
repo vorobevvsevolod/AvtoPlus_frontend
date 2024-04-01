@@ -29,6 +29,7 @@ const ImagesTitleBlock: React.FC<{images: IImages[], title: string, lastYear: st
                      </div>
 
                      <div className={styles.images_TitleDesc_YearContainer}>
+                         <img width={40} height={40} src="/img/впрошломгоду.png" alt="впрошломгоду"/>
                          <span className={styles.images_TitleDesc_YearContainer_text}>{props.lastYear}</span>
                      </div>
                  </div>
