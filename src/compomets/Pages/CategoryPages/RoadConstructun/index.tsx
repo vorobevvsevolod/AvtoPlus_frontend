@@ -12,7 +12,7 @@ import {clearWork} from "../../../../redux/slice/WorksSlice";
 
 const RoadConstruction: React.FC = () => {
     const dispatch = useAppDispatch();
-
+    const {categories, activeCategory} = useSelector((state:RootState) => state.Category)
     React.useEffect(() =>{
         dispatch(clearWork())
     },[])
@@ -26,7 +26,8 @@ const RoadConstruction: React.FC = () => {
                 СК Основа — компания, которая профессионально занимается строительством дорог. Мы даем гарантию на выполненные работы, используем только проверенные материалы, современную спецтехнику. Наши сотрудники — люди с большим опытом, которые помогают находить оптимальные решения для каждого заказчика. Построенные нами дороги служат заявленный срок и даже дольше, соответствуют ГОСТ.
             </div>
             <h1 className={styles.categoryPages_titleCenter}>Какие дороги мы строим</h1>
-            <WorksItemCard/>
+            <WorksItemCard typeOfServiceId={categories.find(cat => cat.id === activeCategory) ? categories.find(cat => cat.id === activeCategory)?.typeOfServiceId : 0}/>
+
             <StagesWork title={"Технология и этапы строительства дороги"} subTitle={"При строительстве дорог мы следуем этапам технологии."}
                         stages={[{title: "Выемка грунта под основание дороги.", text: "Проводимые работы зависят от типа местности. Они могут включать в себя выкорчевывание, осушение, проведение дренажа (закрытого или открытого). Если предполагается укладка асфальта, то необходимо оборудование ливневого дренажа.", img: "/img/road1.jpg"},
                                  {title: "Уплотнение основания дороги и укладка геотекстиля.", text: "После выемки почвы уплотняем основу с помощью грунтового виброкатка. Сверху на ставшей плотной почве расстилаем гкотекстильное полотно, чтобы помешать перемешиванию дорожных слоев.", img: "/img/road2.jpg"},

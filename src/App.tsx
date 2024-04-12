@@ -9,6 +9,7 @@ import {fetchCategory} from "./redux/slice/CategorySlice";
 import HeaderSub from "./compomets/UI/HeaderSub";
 import {fetchGalleryWorks, fetchWorks} from "./redux/slice/WorksSlice";
 import BreadCrumbs from "./compomets/UI/BreadCrumbs";
+import {fetchDeliveryLocation, fetchMaterials} from "./redux/slice/MaterialsSlice";
 function App() {
     const dispatch = useAppDispatch();
     const { token } = useSelector((state: RootState) => state.userInfo)
@@ -16,7 +17,9 @@ function App() {
         dispatch(getTokenByCookie())
         dispatch(fetchCategory())
         dispatch(fetchWorks())
+        dispatch(fetchMaterials())
         dispatch(fetchGalleryWorks())
+        dispatch(fetchDeliveryLocation())
 
     }, [])
 

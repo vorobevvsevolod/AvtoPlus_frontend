@@ -2,9 +2,9 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import axios from "../../axios";
 import { ICategory } from "../interface/ICategory";
 import { StatusFetch } from "../interface/StatusFetch";
-import { IPriceFactor } from "../interface/Works/IPriceFactor";
-import { INeed } from "../interface/Works/INeed";
-import { IImages } from "../interface/Works/IImages";
+import { IPriceFactor } from "../interface/IPriceFactor";
+import { INeed } from "../interface/INeed";
+import { IImages } from "../interface/IImages";
 import {IWork} from "../interface/Works/IWork";
 import {IGalleryWorks} from "../interface/Works/IGalleryWorks";
 
@@ -126,7 +126,8 @@ const worksSlice = createSlice({
             })
             .addCase(fetchWorks.fulfilled, (state, action) => {
                 state.status = StatusFetch.SUCCESS;
-                state.works = action.payload;
+                const worksArray = action.payload.sort((a,b) => a.id - b.id)
+                state.works = worksArray;
             })
             .addCase(fetchWorks.rejected, (state, action) => {
                 state.status = StatusFetch.FAILED;

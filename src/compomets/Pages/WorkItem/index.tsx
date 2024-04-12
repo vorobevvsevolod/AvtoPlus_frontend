@@ -16,8 +16,9 @@ import WorksItemCard from "../CategoryPages/Elements/WorksItemCard";
 const WorkItem : React.FC = () => {
     const dispatch = useAppDispatch();
     const { work, works } = useSelector((state:RootState) => state.Works);
-    const { activeCategory } = useSelector((state:RootState) => state.Category);
+    const { activeCategory, categories } = useSelector((state:RootState) => state.Category);
     const location = useLocation();
+
     React.useEffect(() =>{
         if(works.length)
             dispatch(setWorkById({id: Number(location.pathname.split('/')[2] ) } )   )
@@ -108,7 +109,7 @@ const WorkItem : React.FC = () => {
             </div>
 
             <h2 className={categoryStyles.categoryPages_titleCenter}>Другие виды работ:</h2>
-            <WorksItemCard/>
+            <WorksItemCard typeOfServiceId={categories.find(cat => cat.id === activeCategory) ? categories.find(cat => cat.id === activeCategory)?.typeOfServiceId : 0}/>
 
         </div>
     );

@@ -37,7 +37,7 @@ const HeaderSub:React.FC = () => {
                     <Link to='/' className={styles.hesderSub_bottom_nav_link}>
                         Главная
                     </Link>
-                    <Link to='/' className={styles.hesderSub_bottom_nav_link}>
+                    <Link to='/Галерея работ' className={styles.hesderSub_bottom_nav_link}>
                         Галерея работ
                     </Link>
                     <Link to='/' className={styles.hesderSub_bottom_nav_link}>

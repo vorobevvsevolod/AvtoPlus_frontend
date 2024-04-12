@@ -1,4 +1,4 @@
-import {ISubCategory} from "../ISubcategory";
+import {ISubCategory} from "./ISubcategory";
 
 export interface IPriceFactor {
     workId: number,

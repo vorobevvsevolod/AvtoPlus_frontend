@@ -36,21 +36,27 @@ const categorySlice = createSlice({
     reducers: {
         setBreadCrumbs: (state, action: PayloadAction<String[]>) => {
             const newArray = [...action.payload];
+            if (action.payload[0] === 'Галерея работ') {
+                state.breadCrumbs = [];
+                state.breadCrumbs[0] = action.payload[0];
+            } else {
+                state.categories.forEach(category => {
+                    if (category.name === newArray[0]) {
+                        state.activeCategory = category.id;
+                        if (newArray.length > 1) {
+                            category.sub.forEach(sub => {
+                                if (String(sub.idSub) === newArray[newArray.length - 1]) {
+                                    newArray.pop();
+                                    newArray.push(sub.title);
+                                    state.breadCrumbs = newArray;
+                                }
+                            });
+                        } else state.breadCrumbs = newArray;
+                    }
+                });
+            }
 
-            state.categories.forEach(category => {
-                if (category.name === newArray[0]) {
-                    state.activeCategory = category.id;
-                    if(newArray.length > 1){
-                        category.sub.forEach(sub => {
-                            if (String(sub.idSub) === newArray[newArray.length - 1]) {
-                                newArray.pop();
-                                newArray.push(sub.title);
-                                state.breadCrumbs = newArray;
-                            }
-                        });
-                    } else state.breadCrumbs = newArray;
-                }
-            });
+
         },
         setActiveCategory: (state, action: PayloadAction<string>) => {
             state.activeCategory = action.payload;
@@ -77,6 +83,10 @@ const categorySlice = createSlice({
             })
             .addCase(fetchCategory.fulfilled, (state, action) => {
                 state.status = StatusFetch.SUCCESS;
+                const categoriesArray = action.payload.map(cat =>
+                {
+                    return { ...cat, sub: cat.sub.sort((a,b) => a.idSub - b.idSub)}
+                })
                 state.categories = action.payload;
             })
             .addCase(fetchCategory.rejected, (state, action) => {

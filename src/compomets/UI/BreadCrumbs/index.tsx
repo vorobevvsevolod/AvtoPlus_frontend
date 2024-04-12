@@ -16,6 +16,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = () => {
 
     React.useEffect(() =>{
         dispatch(setBreadCrumbs(decodeURIComponent(location.pathname).split('/').filter((x) => x)));
+        window.scrollTo(0, 0);
     }, [location.pathname, status])
 
 

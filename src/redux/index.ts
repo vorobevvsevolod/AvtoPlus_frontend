@@ -3,11 +3,13 @@ import {useDispatch} from "react-redux";
 import {TokenUserReducer} from "./slice/UserSlice";
 import {CategoryReducer} from "./slice/CategorySlice";
 import {WorksReducer} from "./slice/WorksSlice";
+import {MaterialsReducer} from "./slice/MaterialsSlice";
 const store = configureStore({
   reducer: {
       userInfo: TokenUserReducer,
       Category: CategoryReducer,
-      Works: WorksReducer
+      Works: WorksReducer,
+      Materials: MaterialsReducer
   },
 });
 

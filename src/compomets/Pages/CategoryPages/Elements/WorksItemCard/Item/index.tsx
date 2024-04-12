@@ -5,24 +5,22 @@ import {IWork} from "../../../../../../redux/interface/Works/IWork";
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../../../redux";
-const Item:React.FC<IWork> = (props) =>{
+import { IMaterial } from "../../../../../../redux/interface/Materials/IMaterial";
+const Item:React.FC<{work:IWork, linkURL?: string }> = (props) =>{
     const { breadCrumbs } = useSelector((root:RootState) => root.Category);
     return (
         <>
-            <Link to={`/${breadCrumbs[0]}/${props.id}`}>
+            <Link to={`${props.linkURL ? props.linkURL : "/"+ breadCrumbs[0] + "/" + props.work.id}`}>
                 <div className={styles.item}>
-                    <img className={styles.item_img} src={`${process.env.REACT_APP_API_SERVER}${props.images[0].url}`} alt={props.title}/>
+                    <img className={styles.item_img} src={`${process.env.REACT_APP_API_SERVER}${props.work.images[0].url}`} alt={props.work.title}/>
 
                     <div className={styles.item_contaierTitle}>
-                        <h4 className={styles.item_contaierTitle_title}>{props.title}</h4>
-                        <div className={styles.item_contaierTitle_subtitle}>{props.lastYear}</div>
+                        <h4 className={styles.item_contaierTitle_title}>{props.work.title}</h4>
+                        <div className={styles.item_contaierTitle_subtitle}>{props.work.lastYear}</div>
                     </div>
-                    <div className={styles.item_contaierTitle_price}>Ценa: <span>{(props.price === "смета") ? props.price : props.price + "р."}</span></div>
+                    <div className={styles.item_contaierTitle_price}>Ценa: <span>{(props.work.price === "смета") ? props.work.price : props.work.price + "р."}</span></div>
 
                 </div>
-
-
-
             </Link>
         </>
 

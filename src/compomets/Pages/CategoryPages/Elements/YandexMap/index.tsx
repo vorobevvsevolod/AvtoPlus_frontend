@@ -1,15 +1,14 @@
 import React from 'react';
-import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
+import { YMaps, Map, Placemark, RoutePanel } from '@pbe/react-yandex-maps';
 // @ts-ignore
 import styles from './styles.module.scss';
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../../redux";
 import {IGalleryWorks} from "../../../../../redux/interface/Works/IGalleryWorks";
-import carsPark from "../CarsPark";
+
 import {ISubCategory} from "../../../../../redux/interface/ISubcategory";
 import Slider from "../../../WorkItem/Elements/Slider";
-import {log} from "util";
-import {setActiveCategory} from "../../../../../redux/slice/CategorySlice";
+
 const YandexMap:React.FC<{workId?: number}> = (props) => {
     const { galleryWorks } = useSelector((root: RootState) => root.Works);
     const [galleryWorksFilter, setGalleryWorksFilter] = React.useState<IGalleryWorks[]>(galleryWorks);
@@ -72,24 +71,6 @@ const YandexMap:React.FC<{workId?: number}> = (props) => {
     const filteredWorks = activeCategoryInner !== null ?  galleryWorks.filter(work => work.categoryId === Number(activeCategoryInner)) : galleryWorks;
 
         const center: [number, number] = filteredWorks.reduce((accumulator, work) => {
-            let maxX = Number.MIN_VALUE;
-            let maxY = Number.MIN_VALUE;
-            let minX = Number.MAX_VALUE;
-            let minY = Number.MAX_VALUE;
-
-            for (const work of filteredWorks) {
-                const cordX = parseFloat(work.cordX);
-                const cordY = parseFloat(work.cordY);
-
-                maxX = Math.max(maxX, cordX);
-                maxY = Math.max(maxY, cordY);
-                minX = Math.min(minX, cordX);
-                minY = Math.min(minY, cordY);
-            }
-
-            const deltaX = maxX - minX;
-            const deltaY = maxY - minY;
-
 
             return [
                 accumulator[0] + parseFloat(work.cordX),
@@ -103,86 +84,56 @@ const YandexMap:React.FC<{workId?: number}> = (props) => {
         }
     }
 
-    React.useEffect(() =>{
-        if( activeCategoryInner){
-            const subCategories = categories.find(cat => cat.id === activeCategoryInner) ? categories.find(cat => cat.id === activeCategoryInner)?.sub : [];
-            setSubCategoriesArray(subCategories ? subCategories : []);
-        } else{
-            const subCategories:ISubCategory[] = [];
-            categories.map(cat => {
-                cat.sub.map(catS => {
-                    subCategories.push(catS)
-                })
-            })
-            setSubCategoriesArray(subCategories ? subCategories : []);
-            smoothChangeCenterCord({cordX: 59.9343, cordY: 30.3351} ,calculationCenterCardDefualt(), zoomMap, zoomMap, 1000)
-        }
-    }, [activeCategoryInner])
-
-    React.useEffect(() =>{
-        if(galleryWorks.length)
-            if(activeCategoryInner){
+    React.useEffect(() => {
+            if (activeCategoryInner !== null) {
+                const subCategories = categories.find(cat => cat.id === activeCategoryInner)?.sub || [];
+                setSubCategoriesArray(subCategories);
                 const filteredWorks = galleryWorks.filter(work => work.categoryId === Number(activeCategoryInner));
                 setGalleryWorksFilter(filteredWorks);
-                smoothChangeCenterCord({cordX: 59.9343, cordY: 30.3351} ,calculationCenterCardDefualt(), zoomMap, zoomMap * zoomMapCof, 1000)
-            } else if(props.workId){
-                const filteredWorks = galleryWorks.filter(work => work.workId === Number(props.workId));
-                setGalleryWorksFilter(filteredWorks);
-            }
-        if(activeCategoryInner === null){
-                setGalleryWorksFilter(galleryWorks);
-        }
-    }, [galleryWorks, activeCategoryInner])
+                smoothChangeCenterCord({cordX: 59.9343, cordY: 30.3351}, calculationCenterCardDefualt(), zoomMap, zoomMap * zoomMapCof, 1000);
 
-    React.useEffect(() =>{
-        if(activePoint){
-            setActivePointItem(galleryWorksFilter.find(gal => gal.id === activePoint))
-            smoothChangeCenterCord(calculationCenterCardDefualt(),
-                {cordX: Number(galleryWorks.filter(gal => gal.id === activePoint)[0].cordX) ,
-                        cordY: Number(galleryWorks.filter(gal => gal.id === activePoint)[0].cordY) } ,
-                        zoomMap, 12, 1000)
-        } else {
-            smoothChangeCenterCord(centerCord ,calculationCenterCardDefualt(), zoomMap, 9 * zoomMapCof, 1000)
-        }
-    },[activePoint])
+            } else {
+                const subCategoriesNew:ISubCategory[] = [];
+                categories.forEach(cat => {
+                    if(cat.typeOfServiceId === 1)
+                        cat.sub.forEach(catS => {
+                            subCategoriesNew.push(catS);
+                        });
+                });
+                const noFilterSubCat = subCategoriesNew.map(noFilter => ({
+                    ...noFilter,
+                    count: galleryWorks.filter(gall => gall.workId === noFilter.idSub).length
+                }));
+                noFilterSubCat.sort((a, b) => b.count - a.count);
+                setSubCategoriesArray(noFilterSubCat);
+                setGalleryWorksFilter(galleryWorks);
+            }
+    }, [activeCategoryInner, galleryWorks, props.workId]);
+
+
+
     React.useEffect(() => {
-        if(activeCategory) setActiveCategoryInner(activeCategory)
+        if (activePoint) {
+            const activeWork = galleryWorksFilter.find(gal => gal.id === activePoint);
+            setActivePointItem(activeWork);
+            const cordX = Number(activeWork?.cordX);
+            const cordY = Number(activeWork?.cordY);
+            smoothChangeCenterCord(calculationCenterCardDefualt(), {cordX, cordY}, zoomMap, 12, 1000);
+        } else {
+            smoothChangeCenterCord(centerCord, calculationCenterCardDefualt(), zoomMap, 9 * zoomMapCof, 1000);
+        }
+    }, [activePoint])
+
+    React.useEffect(() => {
+        if(activeCategory) setActiveCategoryInner(activeCategory); else  setActiveCategoryInner(null);
+
     }, [activeCategory])
 
-    React.useEffect(() =>{
-        if(props.workId){
+    React.useEffect(() => {
+        if (props.workId) {
             setActiveSubCategory(props.workId);
         }
-    }, [props.workId])
-
-    React.useEffect(() =>{
-        if(categories.length){
-            const noFilterSubCat = [...subCategoriesArray].map(noFilter => {
-                return {
-                    ...noFilter,
-                    count: 0
-                }
-            });
-
-            const worksCountSort = categories.map(category =>{
-                category.sub.map(cat => {
-                    galleryWorksFilter.map(gall => {
-                        if(gall.workId === cat.idSub){
-                            const foundIndex = noFilterSubCat.findIndex(filter => filter.idSub === cat.idSub);
-                            if (foundIndex !== -1) {
-                                noFilterSubCat[foundIndex].count += 1;
-                            }
-                        }
-                    })
-                })
-            })
-
-            noFilterSubCat.sort((a, b) => b.count - a.count);
-            setSubCategoriesArray(noFilterSubCat)
-
-        }
-
-    }, [galleryWorksFilter])
+    },[props.workId])
 
         return (
         <div className={styles.yandexMap}>
@@ -193,7 +144,7 @@ const YandexMap:React.FC<{workId?: number}> = (props) => {
                 </div>
                 {
                     categories && categories.map((category, index) => {
-                        if(index < 3)
+                        if(category.typeOfServiceId === 1)
                             return(
                                 <div className={`${styles.yandexMap_tabsCategories_item} ${category.id === activeCategoryInner ? styles.yandexMap_tabsCategories_item_active : ""}`}
                                      key={index}

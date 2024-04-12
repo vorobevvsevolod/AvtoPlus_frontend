@@ -7,9 +7,11 @@ import StagesWork from "../Elements/StagesWork";
 import CarsPark from "../Elements/CarsPark";
 import YandexMap from "../Elements/YandexMap";
 import {clearWork} from "../../../../redux/slice/WorksSlice";
-import {useAppDispatch} from "../../../../redux";
+import {RootState, useAppDispatch} from "../../../../redux";
+import {useSelector} from "react-redux";
 const EarthWorks: React.FC = () =>{
     const dispatch = useAppDispatch();
+    const {categories, activeCategory} = useSelector((state:RootState) => state.Category)
 
     React.useEffect(() =>{
         dispatch(clearWork())
@@ -27,7 +29,7 @@ const EarthWorks: React.FC = () =>{
             </div>
 
             <h1 className={styles.categoryPages_titleCenter}>Виды земляные работ</h1>
-            <WorksItemCard/>
+            <WorksItemCard typeOfServiceId={categories.find(cat => cat.id === activeCategory) ? categories.find(cat => cat.id === activeCategory)?.typeOfServiceId : 0}/>
 
 
             <StagesWork title={"Технология и этапы земляных работ"} subTitle={"Изначально есть три основные группы работ:"}

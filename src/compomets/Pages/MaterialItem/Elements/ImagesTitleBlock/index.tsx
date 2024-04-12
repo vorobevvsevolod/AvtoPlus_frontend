@@ -7,16 +7,14 @@ const ImagesTitleBlock: React.FC<{images: IImages[], title: string, lastYear: st
 
     const [textDescList, setTextDescList] = React.useState<{title:string, subPoints: string[]}>()
     React.useEffect(() =>{
-        if (props.price) {
+        if (props.price && props.titleDesc) {
             const lines = props.titleDesc.split(':');
             const title = lines[0].trim();
             const subpoints = lines[1].split(";");
 
             setTextDescList({title: title, subPoints: subpoints})
-
-            console.log(subpoints);
         }
-    },[props.price])
+    },[props.price, props.titleDesc])
     return(
      <div className={styles.images_container}>
          <div>
